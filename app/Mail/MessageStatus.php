@@ -11,7 +11,7 @@ class MessageStatus extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $subject = "Estado Reserva";
+    public $subject = "Contraseña Siscaval Poli";
     public $msg;
     public $status;
 
@@ -20,10 +20,9 @@ class MessageStatus extends Mailable
      *
      * @return void
      */
-    public function __construct($reservation_mail,$status)
+    public function __construct($password)
     {
-        $this->msg = $reservation_mail;
-        $this->status = $status;
+        $this->msg = $password;
     }
 
     /**

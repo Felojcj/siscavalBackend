@@ -7,73 +7,52 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\MessageStatus;
 
 class AuthController extends Controller
 {
     public function register(Request $request)
     {
-        $validateUser = $request->validate([
+        $validateUser = Validator::make($request->all(),[
             'name' => 'required|regex:/^[\pL\s\-]+$/u',
             'email' => 'required|email|unique:users',
-            'password' => 'required|alpha_num|confirmed|min:8',
+            //'password' => 'required|alpha_num|confirmed|min:8',
             'position' => 'required|regex:/^[\pL\s\-]+$/u',
             'id_dependence' => 'required|integer',
             'is_admin' => 'required|boolean',
             'status' => 'required|boolean'
         ]);
 
-        /*if($validateUser->fails()) {
+        if($validateUser->fails()) {
             return response()
                 ->json(['status'=>'500','data'=>$validateUser->errors()]);
-        }*/
-        $validateUser['password'] = bcrypt($request->password);
-
-        $user = User::create($validateUser);
-        event(new Registered($user));
-
-        return response()
-                    ->json(['status' => '201', 'data' => $user]);
-    }
-    /*public function register(Request $request) {
-        $user_type = ucwords(strtolower($request->user_type));
-        if ($user_type ==="Externo"){
-            $validateData = $request->validate([
-                'name' => 'required|regex:/^[\pL\s\-]+$/u',
-                'surname' => 'required|regex:/^[\pL\s\-]+$/u',
-                'email'=>'email|required|unique:users',
-                'password'=>'required|alpha_num|confirmed|min:8',
-                'user_type' => 'required'
-            ]);
-        }else if($user_type==="Profesor" || $user_type==="Alumno" || $user_type==="Admin"){
-            $validateData = $request->validate([
-                'name' => 'required|regex:/^[\pL\s\-]+$/u',
-                'surname' => 'required|regex:/^[\pL\s\-]+$/u',
-                'email' => 'required|email|regex:/^([a-z\d\._-]+)@(elpoli.edu.co)$/|unique:users',
-                'password'=>'required|alpha_num|confirmed|min:8',
-                'user_type' => 'required'
-            ]);
-        }else {
-            $data = array(
-                'status' => 'error',
-                'code' => 400,
-                'message' => "El tipo de usuario {$user_type} no existe en nuestro sistema"
-            );
-            return response()->json($data, $data['code']);
         }
 
+        $password = $this->generatePassword();
 
-        $validateData['password'] = bcrypt($request->password);
-
-        $user = User::create($validateData);
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            //'password' => Hash::make($request->password),
+            'password' => Hash::make($password),
+            'position' => $request->position,
+            'id_dependence' => $request->id_dependence,
+            'is_admin' => $request->is_admin,
+            'status' => $request->status
+        ]);
         event(new Registered($user));
+        Mail::to($user->email)->send(new MessageStatus($password));
         $accessToken = $user->createToken('authToken')->accessToken;
 
-        return response(['user'=>$user,'access_token'=>$accessToken]);
-    }*/
+        return response()
+                    ->json(['status' => '201', 'data' => $user,'access_token'=>$accessToken]);
+    }
 
     public function login(Request $request) {
         $user = auth()->user();
-        $userRole = $user->user_type;
+        $userRole = $user->is_admin;
         $accessToken = $user->createToken($user->email.'-'.now(),[$userRole]);
         return response()->json([
             'token' => $accessToken->accessToken,
@@ -113,5 +92,17 @@ class AuthController extends Controller
 
     public function users() {
         return User::all();
+    }
+
+    public function generatePassword() {
+        $cadena_base =  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+        $cadena_base .= '0123456789';
+        $password = '';
+        $limite = strlen($cadena_base) - 1;
+
+        for ($i=0; $i < 8; $i++)
+            $password .= $cadena_base[rand(0, $limite)];
+
+        return $password;
     }
 }

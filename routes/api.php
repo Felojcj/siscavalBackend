@@ -27,13 +27,14 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
 Route::post('/register',[AuthController::class,'register']);
-Route::post('/login',[AuthController::class,'login'])->middleware('exist','actived','verified');
+Route::post('/login',[AuthController::class,'login'])->middleware('exist','actived','verification');
 
 Route::post('/password/email',[ForgotPasswordController::class,'sendResetLinkEmail']);
 Route::post('/password/reset',[ResetPasswordController::class,'reset']);
 
-Route::get('/email/resend',[VerificationController::class,'resend'])->name('verification.resendrification.resend');
+Route::get('/email/resend',[VerificationController::class,'resend'])->name('verification.resend');
 Route::get('/email/verify/{id}/{hash}',[VerificationController::class,'verify'])->name('verification.verify');
 
 Route::group(['middleware'=>['actived.system','verified','auth:api']],function() {

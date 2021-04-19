@@ -32,10 +32,8 @@ class AuthServiceProvider extends ServiceProvider
         Passport::refreshTokensExpireIn(Carbon::now()->addHours(2));
         Passport::personalAccessTokensExpireIn(Carbon::now()->addHours(2));
         Passport::tokensCan([
-            'Admin' => 'Add/Edit/Delete/List',
-            'Externo' => 'Add/Edit',
-            'Alumno' => 'Add/Edit',
-            'Profesor' => 'Add/Edit'
+            1 => 'Add/Edit/Delete/List',
+            0 => 'List',
         ]);
     }
 }

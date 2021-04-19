@@ -16,13 +16,11 @@ class CheckRoleImplementsMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $role = auth()->user()->user_type;
-        if($role === 'Admin' || $role ==='Profesor') {
+        $role = auth()->user()->is_admin;
+        if($role === 1) {
             return $next($request);
-        }else if($role === 'Alumno' || $role === 'Externo') {
+        }else{
             return response(['message'=>'User unauthorized']);
-        }else {
-            return response(['message'=>'User role does not exist in our system']);
         }
     }
 }

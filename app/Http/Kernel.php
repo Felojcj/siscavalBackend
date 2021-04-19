@@ -67,5 +67,6 @@ class Kernel extends HttpKernel
         'actived' => \App\Http\Middleware\UserActiveMiddleware::class,
         'actived.system' => \App\Http\Middleware\UserActiveSystemMiddleware::class,
         'role.implements' => \App\Http\Middleware\CheckRoleImplementsMiddleware::class,
+        'verification' => \App\Http\Middleware\VerificationMiddleware::class,
     ];
 }

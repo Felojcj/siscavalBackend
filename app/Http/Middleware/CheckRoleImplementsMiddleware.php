@@ -20,7 +20,7 @@ class CheckRoleImplementsMiddleware
         if($role === 1) {
             return $next($request);
         }else{
-            return response(['message'=>'User unauthorized']);
+            return response(['message'=>'Usuario no autorizado']);
         }
     }
 }

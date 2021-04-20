@@ -36,19 +36,41 @@ class DependenceController extends Controller
 
     public function update(Request $request,$id)
     {
-        $dependence = Dependence::where('id',$id)->update([
-            'cost_center' => $request->cost_center,
-            'description' => $request->description,
-            'email' => $request->email,
-            'status' => $request->status
+        $dependence = Dependence::where('id',$id)->first();
+
+        if(!$dependence){
+            return response()->json(['status'=>'404','data'=>'No existe dependencia']);
+        }
+
+        $validateDependence = Validator::make($request->all(),[
+            'cost_center' => 'regex:((CO)(\d+)?$)',
+            'description' => 'string',
+            'email' => 'email|unique:dependences',
+            'status' => 'boolean'
         ]);
 
+        if($validateDependence->fails()) {
+            return response()
+                ->json(['status'=>'500','data'=>$validateDependence->errors()]);
+        }
+
+        $request->cost_center ? $dependence->cost_center = $request->cost_center: false;
+        $request->description ? $dependence->description = $request->description : false;
+        $request->email ? $dependence->email = $request->email: false;
+        $request->status ? $dependence->status = $request->status: false;
+        $dependence->save();
+
         return response()
-                    ->json(['status' => '200', 'data' => "Dependence Updated"]);
+                    ->json(['status' => '200', 'data'=>$dependence,'message' => "Dependence Updated"]);
     }
 
     public function changeStatus($id) {
         $dependence = Dependence::where('id',$id)->first();
+
+        if(!$dependence){
+            return response()->json(['status'=>'404','data'=>'No existe dependencia']);
+        }
+
         $status = 0;
         if($dependence->status ==0) {
             $status = 1;
@@ -58,6 +80,6 @@ class DependenceController extends Controller
         $dependence->save();
 
         return response()
-                    ->json(['status' => '200','data'=>'Dependence Status Change']);
+                    ->json(['status' => '200','data'=>'Dependence Status Change','dependence_status'=>$status]);
     }
 }

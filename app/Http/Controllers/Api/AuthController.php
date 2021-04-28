@@ -50,7 +50,8 @@ class AuthController extends Controller
                     ->json(['status' => '201', 'data' => $user,'access_token'=>$accessToken]);
     }
 
-    public function login(Request $request) {
+    public function login(Request $request) 
+    {
         $user = auth()->user();
         $userRole = $user->is_admin;
         $accessToken = $user->createToken($user->email.'-'.now(),[$userRole]);
@@ -61,7 +62,9 @@ class AuthController extends Controller
         ]);
     }
 
-    public function active(Request $request) {
+    /*
+    public function active(Request $request) 
+    {
         $updateData = $request->validate([
             'email' => 'email|required',
             'is_active' => 'required|boolean'
@@ -84,17 +87,21 @@ class AuthController extends Controller
         $user->save();
         return response(['message'=>$message]);
     }
+    */
 
-    public function logout(Request $request) {
+    public function logout(Request $request)
+    {
         $request->user()->token()->revoke();
         return response(['message' => 'Successfully logged out']);
     }
 
-    public function users() {
+    public function users() 
+    {
         return User::all();
     }
 
-    public function generatePassword() {
+    public function generatePassword() 
+    {
         $cadena_base =  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
         $cadena_base .= '0123456789';
         $password = '';
@@ -105,4 +112,27 @@ class AuthController extends Controller
 
         return $password;
     }
+
+    public function resendVerify(Request $request) 
+    {
+      $email = Validator::make($request->all(), [
+          'email' => 'required|email'
+      ]);
+
+      $user = User::where('email',$email->getData())->first();
+
+      if(!$user) {
+          return response()
+              ->json(['status' => '404', 'message' => 'Usuario no encontrado']);
+      }
+
+      if ($user->hasVerifiedEmail()) {
+          return response(['status'=>'200','message'=>'Su correo ya se encuentra verificado']);
+      }
+
+      $user->sendEmailVerificationNotification();
+      if ($request->wantsJson()) {
+          return response(['status'=>'200','message' => 'Correo de Verificación Enviado']);
+      }
+  }
 }

@@ -37,12 +37,16 @@ Route::post('/password/reset',[ResetPasswordController::class,'reset']);
 Route::get('/email/resend',[VerificationController::class,'resend'])->name('verification.resend');
 Route::get('/email/verify/{id}/{hash}',[VerificationController::class,'verify'])->name('verification.verify');
 
+Route::post('/resend-verify',[AuthController::class,'resendVerify']);
+
 Route::group(['middleware'=>['actived.system','verified','auth:api']],function() {
     //Administrador
     Route::group(['middleware'=>['role']],function() {
         //Dependencias
             // Listar Dependencias
         Route::get('/dependences',[DependenceController::class,'listDependences']);
+            // Listar Dependencias
+        Route::get('/dependences/{id}',[DependenceController::class,'listDependency']);
             // Crear Dependencia
         Route::post('/dependences',[DependenceController::class,'store']);
             // Editar Dependencia

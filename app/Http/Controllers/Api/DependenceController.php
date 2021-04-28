@@ -34,6 +34,15 @@ class DependenceController extends Controller
         return Dependence::all();
     }
 
+    public function listDependency($id)
+    {
+      $dependence = Dependence::find($id);
+        if($dependence){
+            return response($dependence);
+        }
+        return response(['message'=>'No existe la dependencia'], 404);
+    }
+
     public function update(Request $request,$id)
     {
         $dependence = Dependence::where('id',$id)->first();

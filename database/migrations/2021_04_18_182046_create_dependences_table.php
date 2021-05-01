@@ -17,7 +17,7 @@ class CreateDependencesTable extends Migration
             $table->id();
             $table->string('cost_center');
             $table->string('description');
-            $table->string('email')->unique();
+            $table->string('email');
             $table->tinyInteger('status');
             $table->timestamps();
         });

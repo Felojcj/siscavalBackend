@@ -14,7 +14,7 @@ class DependenceController extends Controller
         $validateDependence = Validator::make($request->all(),[
             'cost_center' => 'required|regex:((CO)(\d+)?$)|unique:dependences',
             'description' => 'required|string',
-            'email' => 'required|email|unique:dependences',
+            'email' => 'required|email',
             'status' => 'required|boolean'
         ]);
 
@@ -54,7 +54,7 @@ class DependenceController extends Controller
         $validateDependence = Validator::make($request->all(),[
             'cost_center' => 'regex:((CO)(\d+)?$)',
             'description' => 'string',
-            'email' => 'email|unique:dependences',
+            'email' => 'email',
             'status' => 'boolean'
         ]);
 

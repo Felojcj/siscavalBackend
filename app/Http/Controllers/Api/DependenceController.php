@@ -77,7 +77,7 @@ class DependenceController extends Controller
         $dependence = Dependence::where('id',$id)->first();
 
         if(!$dependence){
-            return response()->json(['status'=>'404','data'=>'No existe dependencia']);
+            return response()->json(['status'=>'404','data'=>'No existe la dependencia']);
         }
 
         $status = 0;

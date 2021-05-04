@@ -60,7 +60,7 @@ Route::group(['middleware'=>['actived.system','verified','auth:api']],function()
             //Listar Usuario
         Route::get('/users/{id}', [AuthController::class,'user']);
             //Activar o Desactivar Usuarios
-        Route::put('/users/active', [AuthController::class,'active']);
+        Route::put('/users/delete', [AuthController::class,'active']);
 
         //Escenarios
             //Crear Escenario

@@ -62,32 +62,32 @@ class AuthController extends Controller
         ]);
     }
 
-    /*
     public function active(Request $request) 
     {
         $updateData = $request->validate([
             'email' => 'email|required',
-            'is_active' => 'required|boolean'
+            'status' => 'required|boolean'
         ]);
 
         $email = $request->email;
-        $status = $request->is_active;
+        $status = $request->status;
         $user = User::find(1)->where('email','=',$request->email)->first();
 
         if(!$user) {
             return response(['message'=>"No existe usuario con correo {$email}"]);
         }
-        if($status === 1) {
+        if($status === 0) {
+            $status = 1;
             $message = "Usuario {$email} Activado";
-        }else {
+        }else if($status === 1) {
+            $status = 0;
             $message = "Usuario {$email} Desactivado";
         }
 
-        $user->is_active = $status;
+        $user->status = $status;
         $user->save();
         return response(['message'=>$message]);
     }
-    */
 
     public function logout(Request $request)
     {

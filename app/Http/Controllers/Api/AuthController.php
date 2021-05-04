@@ -97,7 +97,33 @@ class AuthController extends Controller
 
     public function users() 
     {
-        return User::all();
+        foreach (User::join('Dependences','users.id_dependence','=','dependences.id')
+          ->select('users.id', 'users.name', 'users.email', 'users.position','users.is_admin','users.status', 'dependences.id as dependence_id', 'dependences.description')
+          ->get() as $user) {
+            $result = [
+              'id' => $user->id,
+              'username' => $user->name,
+              'email' => $user->email,
+              'position' => $user->position,
+              'is_admin' => $user->is_admin,
+              'status' => $user->status,
+              'dependency' => [
+                'id' => $user->dependence_id,
+                'name' => $user->description
+              ]
+            ];
+          }
+
+        return response()->json($result);
+    }
+
+    public function user($id)
+    {
+        $user = User::find($id);
+        if($user){
+            return response($user);
+        }
+        return response(['message'=>'No existe el usuario con el id '. $id], 404);
     }
 
     public function generatePassword() 

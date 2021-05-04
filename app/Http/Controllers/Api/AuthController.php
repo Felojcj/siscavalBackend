@@ -97,10 +97,11 @@ class AuthController extends Controller
 
     public function users() 
     {
+        $result = [];
         foreach (User::join('Dependences','users.id_dependence','=','dependences.id')
           ->select('users.id', 'users.name', 'users.email', 'users.position','users.is_admin','users.status', 'dependences.id as dependence_id', 'dependences.description')
           ->get() as $user) {
-            $result = [
+            $result[] = [
               'id' => $user->id,
               'username' => $user->name,
               'email' => $user->email,

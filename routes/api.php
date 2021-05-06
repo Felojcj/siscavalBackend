@@ -61,6 +61,8 @@ Route::group(['middleware'=>['actived.system','verified','auth:api']],function()
         Route::get('/users/{id}', [AuthController::class,'user']);
             //Activar o Desactivar Usuarios
         Route::put('/users/delete', [AuthController::class,'active']);
+            // Editar Usuario
+        Route::put('/users/{id}',[AuthController::class,'update']);
 
         //Escenarios
             //Crear Escenario

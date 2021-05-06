@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\MessageStatus;
+use App\Mail\MessageEdit;
 
 class AuthController extends Controller
 {
@@ -161,5 +162,42 @@ class AuthController extends Controller
       if ($request->wantsJson()) {
           return response(['status'=>'200','message' => 'Correo de Verificación Enviado']);
       }
+  }
+
+  public function update(Request $request,$id)
+  {
+      $user = User::where('id',$id)->first();
+
+      if(!$user){
+          return response()->json(['status'=>'404','data'=>'No existe el usuario con el id ' . $id]);
+      }
+
+      $validateUser = Validator::make($request->all(),[
+          'name' => 'string',
+          'email'=> 'email',
+          'position'=> 'string',
+          'id_dependence' => 'integer',
+          'is_admin' => 'boolean',
+          'status' => 'boolean'
+      ]);
+
+      if($validateUser->fails()) {
+          return response()
+              ->json(['status'=>'500','data'=>$validateUser->errors()]);
+      }
+
+      $request->name ? $user->name = $request->name: false;
+      if ($request->email <> $user->email) {
+        Mail::to($request->email)->send(new MessageEdit($request->email));
+      }
+      $request->email ? $user->email = $request->email: false;
+      $request->position ? $user->position = $request->position : false;
+      $request->id_dependence ? $user->id_dependence = $request->id_dependence: false;
+      $request->is_admin ? $user->is_admin = $request->is_admin: false;
+      $request->status ? $user->status = $request->status: false;
+      $user->save();
+
+      return response()
+                  ->json(['status' => '200', 'data'=>$user,'message' => "Dependence Updated"]);
   }
 }

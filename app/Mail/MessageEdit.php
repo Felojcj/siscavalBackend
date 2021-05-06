@@ -7,11 +7,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class MessageStatus extends Mailable
+class MessageEdit extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $subject = "Contraseña SISCAVAl";
+    public $subject = "Actualizacion Credenciales SISCAVAl";
     public $msg;
     public $status;
 
@@ -32,6 +32,6 @@ class MessageStatus extends Mailable
      */
     public function build()
     {
-        return $this->view('email.status');
+        return $this->view('email.useredited');
     }
 }

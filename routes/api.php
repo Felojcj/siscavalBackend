@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\EscenarioController;
 use App\Http\Controllers\Api\PrestamoController;
 use App\Http\Controllers\Api\VerificationController;
 use App\Http\Controllers\Api\DependenceController;
+use App\Http\Controllers\Api\TemplateController;
 
 
 /*
@@ -29,41 +30,56 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::post('/register',[AuthController::class,'register']);
-Route::post('/login',[AuthController::class,'login'])->middleware('exist','actived','verification');
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login'])->middleware('exist','actived','verification');
 
-Route::post('/password/email',[ForgotPasswordController::class,'sendResetLinkEmail']);
-Route::post('/password/reset',[ResetPasswordController::class,'reset']);
+Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail']);
+Route::post('/password/reset', [ResetPasswordController::class, 'reset']);
 
-Route::get('/email/resend',[VerificationController::class,'resend'])->name('verification.resend');
-Route::get('/email/verify/{id}/{hash}',[VerificationController::class,'verify'])->name('verification.verify');
+Route::get('/email/resend', [VerificationController::class, 'resend'])->name('verification.resend');
+Route::get('/email/verify/{id}/{hash}', [VerificationController::class, 'verify'])->name('verification.verify');
 
-Route::post('/resend-verify',[AuthController::class,'resendVerify']);
+Route::post('/resend-verify', [AuthController::class, 'resendVerify']);
 
 Route::group(['middleware'=>['actived.system','verified','auth:api']],function() {
     //Administrador
     Route::group(['middleware'=>['role']],function() {
         //Dependencias
             // Listar Dependencias
-        Route::get('/dependences',[DependenceController::class,'listDependences']);
+        Route::get('/dependences', [DependenceController::class, 'listDependences']);
             // Listar Dependencias
-        Route::get('/dependences/{id}',[DependenceController::class,'listDependency']);
+        Route::get('/dependences/{id}', [DependenceController::class, 'listDependency']);
             // Crear Dependencia
-        Route::post('/dependences',[DependenceController::class,'store']);
+        Route::post('/dependences', [DependenceController::class, 'store']);
             // Editar Dependencia
-        Route::put('/dependences/{id}',[DependenceController::class,'update']);
+        Route::put('/dependences/{id}', [DependenceController::class, 'update']);
             // Desactivar Dependencia
-        Route::patch('/dependences/{id}',[DependenceController::class,'changeStatus']);
+        Route::patch('/dependences/{id}', [DependenceController::class, 'changeStatus']);
 
         //Usuarios
             //Listar Usuarios
-        Route::get('/users/all', [AuthController::class,'users']);
+        Route::get('/users/all', [AuthController::class, 'users']);
             //Listar Usuario
-        Route::get('/users/{id}', [AuthController::class,'user']);
+        Route::get('/users/{id}', [AuthController::class, 'user']);
             //Activar o Desactivar Usuarios
-        Route::put('/users/{id}',[AuthController::class,'update']);
+        Route::put('/users/{id}', [AuthController::class, 'update']);
             //Activar o Desactivar Usuarios
-        Route::post('/test', [AuthController::class,'active']);
+        Route::post('/test', [AuthController::class, 'active']);
+            //Activar o Desactivar Usuarios
+        Route::put('/edit-user/{id}', [AuthController::class, 'update']);
+
+        //Plantillas
+            // Crear Plantilla
+        Route::post('/templates', [TemplateController::class, 'store']);
+            // Listar Plantillas
+        Route::get('/templates', [TemplateController::class, 'listTemplates']);
+            // Listar Plantillas
+        Route::get('/templates/{id}', [TemplateController::class, 'listTemplate']);
+            // Editar Dependencia
+        Route::put('/templates/{id}', [TemplateController::class, 'update']);
+            // Desactivar Plantilla
+        Route::patch('/templates/{id}', [TemplateController::class, 'changeStatus']);
+
     });
 
     Route::group(['middleware'=>['role.implements']],function() {

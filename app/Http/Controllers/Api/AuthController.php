@@ -65,18 +65,14 @@ class AuthController extends Controller
 
     public function active(Request $request)
     {
-        $updateData = $request->validate([
-            'email' => 'email|required',
-            'status' => 'required|boolean'
-        ]);
-
         $email = $request->email;
         $status = $request->status;
-        $user = User::find(1)->where('email','=',$request->email)->first();
+        $user = User::find(1)->where('email','=', $request->email)->first();
 
         if(!$user) {
-            return response(['message'=>"No existe usuario con correo {$email}"]);
+            return response(['message'=>"Usuario a desactivar no existe"], 404);
         }
+  
         if($status === 0) {
             $status = 1;
             $message = "Usuario {$email} Activado";
@@ -166,7 +162,7 @@ class AuthController extends Controller
       }
   }
 
-  public function update(Request $request,$id)
+  public function update(Request $request, $id)
   {
       $user = User::where('id',$id)->first();
 
@@ -189,9 +185,11 @@ class AuthController extends Controller
       }
 
       $request->name ? $user->name = $request->name: false;
-      if ($request->email <> $user->email) {
+
+      if ($request->email && $request->email <> $user->email) {
         Mail::to($request->email)->send(new MessageEdit($request->email));
       }
+
       $request->email ? $user->email = $request->email: false;
       $request->position ? $user->position = $request->position : false;
       $request->id_dependence ? $user->id_dependence = $request->id_dependence: false;
@@ -200,6 +198,6 @@ class AuthController extends Controller
       $user->save();
 
       return response()
-                  ->json(['status' => '200', 'data'=>$user,'message' => "Dependence Updated"]);
+                  ->json(['status' => '200', 'data'=>$user,'message' => "User Updated"]);
   }
 }

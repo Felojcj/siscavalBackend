@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\PrestamoController;
 use App\Http\Controllers\Api\VerificationController;
 use App\Http\Controllers\Api\DependenceController;
 
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -60,55 +61,9 @@ Route::group(['middleware'=>['actived.system','verified','auth:api']],function()
             //Listar Usuario
         Route::get('/users/{id}', [AuthController::class,'user']);
             //Activar o Desactivar Usuarios
-        Route::put('/users/delete', [AuthController::class,'active']);
-            // Editar Usuario
         Route::put('/users/{id}',[AuthController::class,'update']);
-
-        //Escenarios
-            //Crear Escenario
-        Route::post('/escenarios/add',[EscenarioController::class,'create']);
-            //Obtener Escenario
-        Route::get('/escenarios/{id}',[EscenarioController::class,'show']);
-            //Editar Escenario
-        Route::put('/escenarios/{id}',[EscenarioController::class,'update']);
-            //Borrar Escenario
-        Route::delete('/escenarios/{id}',[EscenarioController::class,'destroy']);
-
-        //Reservas
-            //Obtener Reservas
-        Route::get('/reservas',[ReservaController::class,'index']);
-            //Obtener Reserva por id
-            Route::get('/reservas/get/{id}',[ReservaController::class,'getReservationById']);
-            //Obtener Estado de las reservas
-        Route::get('/reservas/status/{status}',[ReservaController::class,'listStatusReservations']);
-            //Obtener reservas del día
-        Route::post('/reservas/today',[ReservaController::class,'listReservationsDay']);
-            //Actualizar Reserva
-        Route::put('/reservas/estado/{id}',[ReservaController::class,'updateStatus']);
-
-        //Implementos
-            //Crear Implemento
-        Route::post('/implementos/add',[ImplementoController::class,'create']);
-            //Obtener Implemento
-        Route::get('/implementos/{id}',[ImplementoController::class,'show']);
-            //Editar Implemeto
-        Route::put('/implementos/{id}',[ImplementoController::class,'update']);
-            //Borrar Implemento
-        Route::delete('/implementos/{id}',[ImplementoController::class,'destroy']);
-
-        //Prestamos
-            //Obtener Prestamos
-        Route::get('/prestamos',[PrestamoController::class,'index']);
-            //Obtener Prestamo por id
-        Route::get('/prestamos/get/{id}',[PrestamoController::class,'getLoanById']);
-            //Obtener Estado de los prestamos
-        Route::get('/prestamos/status/{status}',[PrestamoController::class,'listStatusLoans']);
-            //Obtener prestamos del día
-        Route::post('/prestamos/today',[PrestamoController::class,'listLoansDay']);
-            //Actualizar prestamo
-        Route::put('/prestamos/estado/{id}',[PrestamoController::class,'updateStatus']);
-            //Actualizar estado del implemento del prestamo
-        Route::put('/prestamos/estado/implemento/{id}',[PrestamoController::class,'updateStatusImplement']);
+            //Activar o Desactivar Usuarios
+        Route::post('/test', [AuthController::class,'active']);
     });
 
     Route::group(['middleware'=>['role.implements']],function() {

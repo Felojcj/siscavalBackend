@@ -63,7 +63,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function active(Request $request) 
+    public function active(Request $request)
     {
         $updateData = $request->validate([
             'email' => 'email|required',
@@ -88,7 +88,8 @@ class AuthController extends Controller
         $user->status = $status;
         $user->save();
         return response(['message'=>$message]);
-    }
+
+      }
 
     public function logout(Request $request)
     {

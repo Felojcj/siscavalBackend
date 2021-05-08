@@ -162,6 +162,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Laraveles\Spanish\SpanishServiceProvider::class,
+        FruitCake\Cors\CorsServiceProvider::class,
 
 
         /*

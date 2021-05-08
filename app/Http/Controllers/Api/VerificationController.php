@@ -81,7 +81,7 @@ class VerificationController extends Controller
 
         if ($request->user()->hasVerifiedEmail()) {
             $message='Su correo ya se encuentra verificado';
-            return redirect()->away("http://localhost:4200/verify-email/$message");
+            return redirect()->away("http://localhost:3000/verify-email/$message");
         }
 
         if ($request->user()->markEmailAsVerified()) {
@@ -91,6 +91,6 @@ class VerificationController extends Controller
         //$user->is_active = 1;
         $user->save();
         $message='Verificación Exitosa';
-        return redirect()->away("http://localhost:4200/verify-email/$message");
+        return redirect()->away("http://localhost:3000/verify-email/$message");
     }
 }

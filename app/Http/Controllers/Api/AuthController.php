@@ -101,7 +101,7 @@ class AuthController extends Controller
     {
         $result = [];
         foreach (User::join('Dependences','users.id_dependence','=','dependences.id')
-          ->select('users.id', 'users.name', 'users.email', 'users.position','users.is_admin','users.status', 'dependences.id as dependence_id', 'dependences.description')
+          ->select('users.id', 'users.name', 'users.email', 'users.position','users.is_admin','users.status', 'dependences.id as dependence_id', 'dependences.description', 'dependences.status as dependence_status')
           ->get() as $user) {
             $result[] = [
               'id' => $user->id,
@@ -112,7 +112,8 @@ class AuthController extends Controller
               'status' => $user->status,
               'dependency' => [
                 'id' => $user->dependence_id,
-                'name' => $user->description
+                'name' => $user->description,
+                'status' => $user->dependence_status
               ]
             ];
           }

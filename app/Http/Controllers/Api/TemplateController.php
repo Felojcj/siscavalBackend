@@ -47,7 +47,7 @@ class TemplateController extends Controller
         $template = Template::where('id', $id)->first();
 
         if(!$template){
-            return response()->json(['data'=>'No existe la dependencia'], 404);
+            return response()->json(['data'=>'No existe la plantilla'], 404);
         }
 
         $status = 0;
@@ -68,7 +68,7 @@ class TemplateController extends Controller
         $template = Template::where('id', $id)->first();
 
         if(!$template){
-            return response()->json(['data'=>'No existe dependencia'], 404);
+            return response()->json(['data'=>'No existe la plantilla'], 404);
         }
 
         $validateTemplate = Validator::make($request->all(),[
@@ -87,6 +87,6 @@ class TemplateController extends Controller
         $template->save();
 
         return response()
-                    ->json(['data' => $template, 'message' => "Dependence Updated"], 200);
+                    ->json(['data' => $template, 'message' => "Plantilla Actualizada"], 200);
     }
 }

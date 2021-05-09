@@ -83,7 +83,7 @@ class AuthController extends Controller
 
         $user->status = $status;
         $user->save();
-        return response(['message'=>$message]);
+        return response(['status'=>'200', 'message' => $message]);
 
       }
 

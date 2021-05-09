@@ -12,6 +12,8 @@ use App\Http\Controllers\Api\PrestamoController;
 use App\Http\Controllers\Api\VerificationController;
 use App\Http\Controllers\Api\DependenceController;
 use App\Http\Controllers\Api\TemplateController;
+use App\Http\Controllers\Api\DetailController;
+use App\Http\Controllers\Api\ValidValueController;
 
 
 /*
@@ -62,10 +64,8 @@ Route::group(['middleware'=>['actived.system','verified','auth:api']],function()
             //Listar Usuario
         Route::get('/users/{id}', [AuthController::class, 'user']);
             //Activar o Desactivar Usuarios
-        Route::put('/users/{id}', [AuthController::class, 'update']);
-            //Activar o Desactivar Usuarios
         Route::post('/test', [AuthController::class, 'active']);
-            //Activar o Desactivar Usuarios
+            //Editar Usuario
         Route::put('/edit-user/{id}', [AuthController::class, 'update']);
 
         //Plantillas
@@ -75,10 +75,34 @@ Route::group(['middleware'=>['actived.system','verified','auth:api']],function()
         Route::get('/templates', [TemplateController::class, 'listTemplates']);
             // Listar Plantillas
         Route::get('/templates/{id}', [TemplateController::class, 'listTemplate']);
-            // Editar Dependencia
+            // Editar Plantilla
         Route::put('/templates/{id}', [TemplateController::class, 'update']);
             // Desactivar Plantilla
         Route::patch('/templates/{id}', [TemplateController::class, 'changeStatus']);
+
+        //Detalles
+            // Crear Detalle
+        Route::post('/details', [DetailController::class, 'store']);
+            // Listar Detalles
+        Route::get('/details', [DetailController::class, 'listDetails']);
+            // Listar Detalles
+        Route::get('/details/{id}', [DetailController::class, 'listDetail']);
+            // Editar Detalle
+        Route::put('/details/{id}', [DetailController::class, 'update']);
+            // Desactivar Detalle
+        Route::patch('/details/{id}', [DetailController::class, 'changeStatus']);
+
+        //Valores Validos
+            // Crear Valor Valido
+        Route::post('/valid-value', [ValidValueController::class, 'store']);
+            // Listar Valores Validos
+        Route::get('/valid-value', [ValidValueController::class, 'listValidValues']);
+            // Listar Valor Valido
+        Route::get('/valid-value/{id}', [ValidValueController::class, 'listValidValue']);
+            // Editar Valor Valido
+        Route::put('/valid-value/{id}', [ValidValueController::class, 'update']);
+            // Desactivar Valor Valido
+        Route::patch('/valid-value/{id}', [ValidValueController::class, 'changeStatus']);
 
     });
 

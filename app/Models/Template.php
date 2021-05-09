@@ -18,6 +18,11 @@ class Template extends Model
 
     public function dependence()
     {
-        return $this->belongsTo(Dependence::class,'id_dependence');
+        return $this->belongsTo(Dependence::class, 'id_dependence');
+    }
+
+    public function details()
+    {
+        return $this->hasMany(Detail::class);
     }
 }

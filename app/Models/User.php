@@ -58,4 +58,8 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(Dependence::class,'id_dependence');
     }
 
+    public function schedules()
+    {
+        return $this->hasMany(Schedule::class);
+    }
 }

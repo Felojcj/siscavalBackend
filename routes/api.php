@@ -14,6 +14,7 @@ use App\Http\Controllers\Api\DependenceController;
 use App\Http\Controllers\Api\TemplateController;
 use App\Http\Controllers\Api\DetailController;
 use App\Http\Controllers\Api\ValidValueController;
+use App\Http\Controllers\Api\ScheduleController;
 
 
 /*
@@ -103,6 +104,10 @@ Route::group(['middleware'=>['actived.system','verified','auth:api']],function()
         Route::put('/valid-value/{id}', [ValidValueController::class, 'update']);
             // Desactivar Valor Valido
         Route::patch('/valid-value/{id}', [ValidValueController::class, 'changeStatus']);
+
+        //Programacion
+            // Import Excel
+        Route::post('/import', [ScheduleController::class, 'import']);
 
     });
 

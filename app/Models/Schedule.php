@@ -5,19 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Detail extends Model
+class Schedule extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-      'column_name',
-      'data_type',
-      'min_length',
-      'max_length',
+      'start_date',
+      'end_date',
+      'implementation_date',
+      'path',
+      'id_user',
       'id_template',
-      'valid_value',
-      'status'
+      'status',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user');
+    }
 
     public function template()
     {

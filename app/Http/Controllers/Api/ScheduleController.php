@@ -45,20 +45,28 @@ class ScheduleController extends Controller
         }
 
         $data = Excel::toArray('', $file);
+        $headers = $data[0][0];
+        $queryArray;
+
+        unset($data[0][0]);
 
         foreach ($data as $row) {
-            $l0 = $row[0];
-            $headers = array_keys($l0);
-            // $arr [] = [
-
-            // ]
-
-            if ($l0 <> $detailArr) {
-                return 'No';
+          for ($i=0; $i < count($headers); $i++) {
+              // $insertData = $row[$i + 1][$i];
+                $arr [] = array(
+                    "$headers[$i]" => $headers[$i],
+                    ...$row
+                    // $insertData
+                );
             }
 
-            return 'El bicho SIUUUUUU';
+            if ($headers <> $detailArr) {
+                return 'No';
+            }
         }
+
+        return $arr;
+
         // $path = $file->storeAs('storage/uploads', $filename, 'public');
 
         // return response()->json(['status' => '201', 'message' => 'Guardado correctamente']);

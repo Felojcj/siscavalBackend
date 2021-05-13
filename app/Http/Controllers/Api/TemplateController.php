@@ -91,6 +91,7 @@ class TemplateController extends Controller
         $validateTemplate = Validator::make($request->all(),[
             'name' => 'string',
             'description' => 'string',
+            'id_dependence' => 'integer',
             'status' => 'boolean'
         ]);
 
@@ -100,6 +101,7 @@ class TemplateController extends Controller
 
         $request->name ? $template->name = $request->name: false;
         $request->description ? $template->description = $request->description : false;
+        $request->id_dependence ? $template->id_dependence = $request->id_dependence: false;
         $request->status ? $template->status = $request->status: false;
         $template->save();
 

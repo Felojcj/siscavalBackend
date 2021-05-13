@@ -31,7 +31,7 @@ class TemplateController extends Controller
     {
       $result = [];
       foreach (Template::join('Dependences','templates.id_dependence','=','dependences.id')
-        ->select('templates.id', 'templates.name', 'templates.description', 'templates.status', 'dependences.id as dependence_id', 'dependences.description', 'dependences.status as dependence_status')
+        ->select('templates.id', 'templates.name', 'templates.description', 'templates.status', 'dependences.id as dependence_id', 'dependences.description as dependence_name', 'dependences.status as dependence_status')
         ->get() as $template) {
           $result[] = [
             'id' => $template->id,
@@ -40,7 +40,7 @@ class TemplateController extends Controller
             'status' => $template->status,
             'dependency' => [
               'id' => $template->dependence_id,
-              'name' => $template->description,
+              'name' => $template->dependence_name,
               'status' => $template->dependence_status
             ]
           ];

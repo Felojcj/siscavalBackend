@@ -29,7 +29,24 @@ class TemplateController extends Controller
 
     public function listTemplates()
     {
-        return Template::all();
+      $result = [];
+      foreach (Template::join('Dependences','templates.id_dependence','=','dependences.id')
+        ->select('templates.id', 'templates.name', 'templates.description', 'templates.status', 'dependences.id as dependence_id', 'dependences.description', 'dependences.status as dependence_status')
+        ->get() as $template) {
+          $result[] = [
+            'id' => $template->id,
+            'name' => $template->name,
+            'description' => $template->description,
+            'status' => $template->status,
+            'dependency' => [
+              'id' => $template->dependence_id,
+              'name' => $template->description,
+              'status' => $template->dependence_status
+            ]
+          ];
+        }
+
+      return response()->json($result);
     }
 
     public function listTemplate($id)

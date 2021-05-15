@@ -19,12 +19,12 @@ class TemplateController extends Controller
         ]);
 
         if($validateTemplate->fails()) {
-          return response()->json(['errors' => $validateTemplate->errors()], 500);
+          return response()->json(['status' => '500', 'errors' => $validateTemplate->errors()], 500);
         }
 
         $template = Template::create($validateTemplate->getData());
 
-        return response()->json(['data' => $template], 201);
+        return response()->json(['status' => '201','data' => $template], 201);
     }
 
     public function listTemplates()

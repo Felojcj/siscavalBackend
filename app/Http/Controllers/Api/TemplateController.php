@@ -64,7 +64,7 @@ class TemplateController extends Controller
         $template = Template::where('id', $id)->first();
 
         if(!$template){
-            return response()->json(['data'=>'No existe la plantilla'], 404);
+            return response()->json(['status' => '404', 'data'=>'No existe la plantilla'], 404);
         }
 
         $status = 0;
@@ -77,7 +77,7 @@ class TemplateController extends Controller
         $template->save();
 
         return response()
-                    ->json(['data' => 'El estado de la plantilla cambio', 'template_status' => $status], 200);
+                    ->json(['status' => '200', 'data' => 'El estado de la plantilla cambio', 'template_status' => $status], 200);
     }
 
     public function update(Request $request, $id)
@@ -85,7 +85,7 @@ class TemplateController extends Controller
         $template = Template::where('id', $id)->first();
 
         if(!$template){
-            return response()->json(['data'=>'No existe la plantilla'], 404);
+            return response()->json(['status' => '404', 'data'=>'No existe la plantilla'], 404);
         }
 
         $validateTemplate = Validator::make($request->all(),[
@@ -96,7 +96,7 @@ class TemplateController extends Controller
         ]);
 
         if($validateTemplate->fails()) {
-            return response()->json(['data'=>$validateTemplate->errors()], 500);
+            return response()->json(['status' => '500', 'data'=>$validateTemplate->errors()], 500);
         }
 
         $request->name ? $template->name = $request->name: false;
@@ -106,6 +106,6 @@ class TemplateController extends Controller
         $template->save();
 
         return response()
-                    ->json(['data' => $template, 'message' => "Plantilla Actualizada"], 200);
+                    ->json(['status' => '200', 'data' => $template, 'message' => "Plantilla Actualizada"], 200);
     }
 }

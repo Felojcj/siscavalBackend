@@ -42,6 +42,7 @@ class ScheduleController extends Controller
 
         foreach ($details as $detail) {
             $detailArr [] = $detail->column_name;
+            $data_typeArr [] = $detail->data_type;
         }
 
         $data = Excel::toArray('', $file);
@@ -50,22 +51,34 @@ class ScheduleController extends Controller
 
         unset($data[0][0]);
 
-        foreach ($data as $row) {
-          for ($i=0; $i < count($headers); $i++) {
-              // $insertData = $row[$i + 1][$i];
-                $arr [] = array(
-                    "$headers[$i]" => $headers[$i],
-                    ...$row
-                    // $insertData
-                );
-            }
+        $columnsData = $data[0];
 
-            if ($headers <> $detailArr) {
-                return 'No';
+        foreach ($columnsData as $row) {
+          for ($i=0; $i < count($headers); $i++) {
+              // $arr [] = array(
+              //   "$headers[$i]" => $row
+              // );
+
+              // return $arr;
+              $validator = Validator::make(
+                  array(
+                      "$headers[$i]" => $row[$i]
+                  ),
+                  array(
+                      "$headers[$i]" => "required|$data_typeArr[$i]"
+                  )
+              );
+              if($validator->fails()) {
+                return response()->json(['status'=>'400','data'=>$validator->errors()], 400);
+              }
             }
         }
 
-        return $arr;
+        if ($headers <> $detailArr) {
+              return response()->json(['status' => '400', 'message' => 'Las columnas ' .$headers .' son diferentes a las definidas en el detalle de la plantilla' . $detailArr], 400);
+        }
+
+
 
         // $path = $file->storeAs('storage/uploads', $filename, 'public');
 

@@ -37,13 +37,34 @@ class DetailController extends Controller
 
     public function listDetail($id)
     {
-        $detail = Detail::find($id);
+      // $result = [];
+      // foreach (Detail::join('Templates',"details.id_template",'=','templates.id')
+      //   ->select('details.id', 'details.column_name', 'details.data_type','details.min_length','details.max_length' ,'details.status', 'templates.id as template_id', 'templates.name', 'templates.status as template_status')
+      //   ->get() as $detail) {
+      //     $result[] = [
+      //       'id' => $detail->id,
+      //       'column' => $detail->column_name,
+      //       'data_type' => $detail->data_type,
+      //       'min_length' => $detail->min_length,
+      //       'max_length' => $detail->max_length,
+      //       'status' => $detail->status,
+      //       'template' => [
+      //         'id' => $detail->template_id,
+      //         'name' => $detail->name,
+      //         'status' => $detail->template_status
+      //       ]
+      //     ];
+      //   }
 
-        if($detail){
+      //   return response()->json($result);
+
+        $detail = Detail::where('id_template', $id)->get();
+
+        if(!$detail->isEmpty()){
             return response($detail);
         }
 
-        return response(['message'=>'No existe el detalle'], 404);
+        return response(['status' => '404','message'=>'No existe el detalle'], 404);
     }
 
     public function update(Request $request, $id)

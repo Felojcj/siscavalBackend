@@ -14,10 +14,10 @@ class DetailController extends Controller
         $validateDetail = Validator::make($request->all(),[
             'column_name' => 'required|string|unique:details',
             'data_type' => 'required|string',
-            'min_length' => 'required|integer|min:0|not_in:0',
-            'max_length' => "required|integer|min:{$request->min_length}|not_in:{$request->min_length}",
+            // 'min_length' => 'required|integer|min:0|not_in:0',
+            // 'max_length' => "required|integer|min:{$request->min_length}|not_in:{$request->min_length}",
             'id_template' => 'required|integer',
-            'valid_value' => 'required|boolean',
+            // 'valid_value' => 'required|boolean',
             'status' => 'required|boolean'
         ]);
 
@@ -57,10 +57,10 @@ class DetailController extends Controller
         $validateDetail = Validator::make($request->all(),[
             'column_name' => 'string',
             'data_type' => 'string',
-            'min_length' => 'integer',
-            'max_length' => 'integer',
+            // 'min_length' => 'integer',
+            // 'max_length' => 'integer',
             'id_template' => 'integer',
-            'valid_value' => 'boolean',
+            // 'valid_value' => 'boolean',
             'status' => 'boolean'
         ]);
 
@@ -71,10 +71,10 @@ class DetailController extends Controller
 
         $request->column_name ? $detail->column_name = $request->column_name: false;
         $request->data_type ? $detail->data_type = $request->data_type : false;
-        $request->min_length ? $detail->min_length = $request->min_length: false;
-        $request->max_length ? $detail->max_length = $request->max_length: false;
+        // $request->min_length ? $detail->min_length = $request->min_length: false;
+        // $request->max_length ? $detail->max_length = $request->max_length: false;
         $request->id_template ? $detail->id_template = $request->id_template: false;
-        $request->valid_value ? $detail->valid_value = $request->valid_value: false;
+        // $request->valid_value ? $detail->valid_value = $request->valid_value: false;
         $request->status ? $detail->status = $request->status: false;
         $detail->save();
 

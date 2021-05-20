@@ -12,10 +12,10 @@ class Detail extends Model
     protected $fillable = [
       'column_name',
       'data_type',
-      'min_length',
-      'max_length',
+      // 'min_length',
+      // 'max_length',
       'id_template',
-      'valid_value',
+      // 'valid_value',
       'status'
     ];
 

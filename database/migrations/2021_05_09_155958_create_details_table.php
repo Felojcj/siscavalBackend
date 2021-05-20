@@ -18,9 +18,6 @@ class CreateDetailsTable extends Migration
             $table->unsignedBigInteger('id_template');
             $table->string('column_name');
             $table->string('data_type');
-            $table->bigInteger('min_length');
-            $table->bigInteger('max_length');
-            $table->tinyInteger('valid_value');
             $table->foreign('id_template')->references('id')->on('templates')->onDelete('cascade');
             $table->timestamps();
         });

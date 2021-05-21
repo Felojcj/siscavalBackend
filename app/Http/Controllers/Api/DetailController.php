@@ -22,12 +22,12 @@ class DetailController extends Controller
         ]);
 
         if($validateDetail->fails()) {
-            return response()->json(['errors' => $validateDetail->errors()], 500);
+            return response()->json(['status' => '500','data' => $validateDetail->errors()]);
         }
 
         $detail = Detail::create($validateDetail->getData());
 
-        return response()->json(['data' => $detail], 201);
+        return response()->json(['status' => '201', 'data' => $detail], 201);
     }
 
     public function listDetails()

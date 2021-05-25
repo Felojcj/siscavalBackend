@@ -71,7 +71,7 @@ class DetailController extends Controller
             'data_type' => 'string',
             // 'min_length' => 'integer',
             // 'max_length' => 'integer',
-            'id_template' => 'integer',
+            // 'id_template' => 'integer',
             // 'valid_value' => 'boolean',
             'status' => 'boolean'
         ]);
@@ -85,7 +85,7 @@ class DetailController extends Controller
         $request->data_type ? $detail->data_type = $request->data_type : false;
         // $request->min_length ? $detail->min_length = $request->min_length: false;
         // $request->max_length ? $detail->max_length = $request->max_length: false;
-        $request->id_template ? $detail->id_template = $request->id_template: false;
+        // $request->id_template ? $detail->id_template = $request->id_template: false;
         // $request->valid_value ? $detail->valid_value = $request->valid_value: false;
         $request->status ? $detail->status = $request->status: false;
         $detail->save();

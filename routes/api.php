@@ -86,8 +86,10 @@ Route::group(['middleware'=>['actived.system','verified','auth:api']],function()
         Route::post('/details', [DetailController::class, 'store']);
             // Listar Detalles
         Route::get('/details', [DetailController::class, 'listDetails']);
-            // Listar Detalles
+            // Listar Detalles por plantilla
         Route::get('/details/{id}', [DetailController::class, 'listDetail']);
+            // Listar Detalle por id
+        Route::get('/detail/{id}', [DetailController::class, 'listSelectedDetail']);
             // Editar Detalle
         Route::put('/details/{id}', [DetailController::class, 'update']);
             // Desactivar Detalle

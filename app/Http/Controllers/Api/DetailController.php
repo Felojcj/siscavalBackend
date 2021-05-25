@@ -46,6 +46,18 @@ class DetailController extends Controller
         return response(['status' => '404','message'=>'No existe el detalle']);
     }
 
+    public function listSelectedDetail($id)
+    {
+        $detail = Detail::find($id);
+
+        if($detail){
+            return response($detail);
+        }
+
+        return response(['message' => 'No existe el detalle con el id '. $id], 404);
+    }
+
+
     public function update(Request $request, $id)
     {
         $detail = Detail::where('id', $id)->first();

@@ -42,6 +42,17 @@ class ValidValueController extends Controller
         return response(['message'=>'No existe el valor valido'], 404);
     }
 
+    public function listValidDetailValue($id)
+    {
+        $validValue = ValidValue::where('id_detail', $id)->get();
+
+        if(!$validValue->isEmpty()){
+          return response($validValue);
+        }
+
+        return response(['status' => '404','message'=>'No existe el detalle']);
+    }
+
     public function update(Request $request,$id)
     {
         $validValue = ValidValue::where('id',$id)->first();

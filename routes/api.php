@@ -102,6 +102,8 @@ Route::group(['middleware'=>['actived.system','verified','auth:api']],function()
         Route::get('/valid-value', [ValidValueController::class, 'listValidValues']);
             // Listar Valor Valido
         Route::get('/valid-value/{id}', [ValidValueController::class, 'listValidValue']);
+            // Listar Valor Valido por detalle
+        Route::get('/valid-values/{id}', [ValidValueController::class, 'listValidDetailValue']);
             // Editar Valor Valido
         Route::put('/valid-value/{id}', [ValidValueController::class, 'update']);
             // Desactivar Valor Valido

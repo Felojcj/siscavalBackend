@@ -15,7 +15,7 @@ class Detail extends Model
       // 'min_length',
       // 'max_length',
       'id_template',
-      // 'valid_value',
+      'valid_value',
       'status'
     ];
 

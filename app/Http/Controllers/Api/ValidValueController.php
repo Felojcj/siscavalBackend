@@ -23,7 +23,7 @@ class ValidValueController extends Controller
 
         $validValue = ValidValue::create($validateValidValue->getData());
 
-        return response()->json(['data' => $validValue], 201);
+        return response()->json(['status' => '201', 'data' => $validValue], 201);
     }
 
     public function listValidValues()

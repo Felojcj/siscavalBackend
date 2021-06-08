@@ -13,7 +13,6 @@ class Schedule extends Model
       'start_date',
       'end_date',
       'implementation_date',
-      'path',
       'id_user',
       'id_template',
       'status',

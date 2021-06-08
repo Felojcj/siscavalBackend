@@ -7,18 +7,21 @@ use Illuminate\Http\Request;
 use App\Models\Schedule;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
 use Excel;
 use App\Models\Template;
 use App\Models\Detail;
+use Carbon\Carbon;
+use App\Models\User;
+use App\Mail\MessageValidated;
 
 class ScheduleController extends Controller
 {
-    public function import(Request $request, Schedule $schedule)
+    public function import(Request $request)
     {
         $validateSchedule = Validator::make($request->all(),[
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
-            // 'implementation_date' => 'required|date',
+            'start_date' => 'required|date|after:today',
+            'end_date' => 'required|date|after:start_date',
             'id_user' => 'required|integer',
             'id_template' => 'required|integer',
             'status' => 'required|boolean',
@@ -55,11 +58,6 @@ class ScheduleController extends Controller
 
         foreach ($columnsData as $row) {
           for ($i=0; $i < count($headers); $i++) {
-              // $arr [] = array(
-              //   "$headers[$i]" => $row
-              // );
-
-              // return $arr;
               $validator = Validator::make(
                   array(
                       "$headers[$i]" => $row[$i]
@@ -69,24 +67,20 @@ class ScheduleController extends Controller
                   )
               );
               if($validator->fails()) {
-                return response()->json(['status'=>'400','data'=>$validator->errors()], 400);
+                  return response()->json(['status'=>'400','data'=>$validator->errors()], 400);
               }
-            }
+          }
         }
 
         if ($headers <> $detailArr) {
-              return response()->json(['status' => '400', 'message' => 'Las columnas ' .$headers .' son diferentes a las definidas en el detalle de la plantilla' . $detailArr], 400);
+              return response()->json(['status' => '400', 'message' => 'Las columnas son diferentes a las definidas en el detalle de la plantilla'], 400);
         }
 
+        $user = User::find($request->id_user);
 
+        $schedule = Schedule::create(array_merge($validateSchedule->getData(), ['implementation_date' => Carbon::now()]));
+        Mail::to($user->email)->send(new MessageValidated($user->email));
 
-        // $path = $file->storeAs('storage/uploads', $filename, 'public');
-
-        // return response()->json(['status' => '201', 'message' => 'Guardado correctamente']);
-
-        // $schedule = Schedule::create($validateSchedule->getData());
-
-        return response()->json(['status' => '201', 'data' => $schedule]);
-        $plantilla = Template::where('id', $programacion->id_template)->first();
+        return response()->json(['status' => '201','data' => $schedule], 201);
     }
 }

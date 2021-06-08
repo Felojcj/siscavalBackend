@@ -40,8 +40,13 @@ class DetailController extends Controller
     {
         $detail = Detail::where('id_template', $id)->get();
 
+        foreach ($detail as $d) {
+            $validValue = ValidValue::where('id_detail', $d->id)->get();
+            $d->values = $validValue;
+        }
+
         if(!$detail->isEmpty()){
-            return response($detail);
+            return $detail;
         }
 
         return response(['status' => '404','message'=>'No existe el detalle']);

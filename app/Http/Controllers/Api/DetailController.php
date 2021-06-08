@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Detail;
+use App\Models\ValidValue;
 use Illuminate\Support\Facades\Validator;
 
 class DetailController extends Controller
@@ -48,9 +49,11 @@ class DetailController extends Controller
 
     public function listSelectedDetail($id)
     {
+        $validValue = ValidValue::where('id_detail', $id)->get();
         $detail = Detail::find($id);
+        $detail->values = $validValue;
 
-        if($detail){
+        if($detail) {
             return response($detail);
         }
 

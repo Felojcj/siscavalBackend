@@ -20,12 +20,8 @@ class ScheduleController extends Controller
     public function import(Request $request)
     {
         $validateSchedule = Validator::make($request->all(),[
-            'start_date' => 'required|date|after:today',
-            'end_date' => 'required|date|after:start_date',
-            'id_user' => 'required|integer',
+            'import_file' => 'required|mimes:xlsx,xlx,xls',
             'id_template' => 'required|integer',
-            'status' => 'required|boolean',
-            'import_file' => 'required|mimes:xlsx,xlx,xls'
         ]);
 
         if($validateSchedule->fails()) {
@@ -38,7 +34,7 @@ class ScheduleController extends Controller
         $template = Template::where('id', $request->id_template)->first();
 
         if ($filename <> $template->name) {
-            return response()->json(['status'=>'404','message'=>'El nombre del archivo es diferente al de la plantilla'], 404);
+            return response()->json(['status'=>'404','message'=>'El nombre del archivo es diferente al de la plantilla']);
         }
 
         $details = Detail::where('id_template', $template->id)->get();
@@ -76,11 +72,29 @@ class ScheduleController extends Controller
               return response()->json(['status' => '400', 'message' => 'Las columnas son diferentes a las definidas en el detalle de la plantilla'], 400);
         }
 
+        Mail::to($user->email)->send(new MessageValidated($user->email));
+
+        return response()->json(['status' => '201','data' => $schedule]);
+    }
+
+    public function store(Request $request)
+    {
+        $validateSchedule = Validator::make($request->all(),[
+          'start_date' => 'required|date|after:today',
+          'end_date' => 'required|date|after:start_date',
+          'id_user' => 'required|integer',
+          'id_template' => 'required|integer',
+          'status' => 'required|boolean',
+        ]);
+
+        if($validateSchedule->fails()) {
+            return response()->json(['status'=>'500','data'=>$validateSchedule->errors()]);
+        }
+
         $user = User::find($request->id_user);
 
         $schedule = Schedule::create(array_merge($validateSchedule->getData(), ['implementation_date' => Carbon::now()]));
-        Mail::to($user->email)->send(new MessageValidated($user->email));
 
-        return response()->json(['status' => '201','data' => $schedule], 201);
+        return response()->json(['status' => '201','data' => $schedule]);
     }
 }

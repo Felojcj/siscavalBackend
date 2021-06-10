@@ -112,6 +112,8 @@ Route::group(['middleware'=>['actived.system','verified','auth:api']],function()
         //Programacion
             // Import Excel
         Route::post('/import', [ScheduleController::class, 'import']);
+            // Creat Programacion
+        Route::post('/schedule', [ScheduleController::class, 'store']);
 
     });
 

@@ -104,4 +104,20 @@ class ScheduleController extends Controller
 
         return response()->json(['status' => '201','data' => $schedule]);
     }
+
+    public function listValidValues()
+    {
+        return Schedule::all();
+    }
+
+    public function listValidValue($id)
+    {
+        $schedule = Schedule::find($id);
+
+        if($schedule){
+            return response($schedule);
+        }
+
+        return response(['message'=>'No existe la programacion'], 404);
+    }
 }

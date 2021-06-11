@@ -17,8 +17,14 @@ use App\Mail\MessageValidated;
 
 class ScheduleController extends Controller
 {
-    public function import(Request $request)
+    public function import(Request $request, $id)
     {
+        $schedule = Schedule::where('id', $id)->first();
+
+        if(!$schedule){
+          return response()->json(['status' => '404', 'data'=>'No existe la programacion']);
+        }
+
         $validateSchedule = Validator::make($request->all(),[
             'import_file' => 'required|mimes:xlsx,xlx,xls',
             'id_template' => 'required|integer',
@@ -46,10 +52,8 @@ class ScheduleController extends Controller
 
         $data = Excel::toArray('', $file);
         $headers = $data[0][0];
-        $queryArray;
 
         unset($data[0][0]);
-
         $columnsData = $data[0];
 
         foreach ($columnsData as $row) {
@@ -72,9 +76,12 @@ class ScheduleController extends Controller
               return response()->json(['status' => '400', 'message' => 'Las columnas son diferentes a las definidas en el detalle de la plantilla'], 400);
         }
 
+        $schedule->implementation_date = Carbon::now();
+        $schedule->save();
+
         Mail::to($user->email)->send(new MessageValidated($user->email));
 
-        return response()->json(['status' => '201','data' => $schedule]);
+        return response()->json(['status' => '201','data' => 'Plantilla Validada correctamente']);
     }
 
     public function store(Request $request)
@@ -93,7 +100,7 @@ class ScheduleController extends Controller
 
         $user = User::find($request->id_user);
 
-        $schedule = Schedule::create(array_merge($validateSchedule->getData(), ['implementation_date' => Carbon::now()]));
+        $schedule = Schedule::create($validateSchedule->getData());
 
         return response()->json(['status' => '201','data' => $schedule]);
     }

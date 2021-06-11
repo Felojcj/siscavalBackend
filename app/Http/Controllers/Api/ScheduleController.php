@@ -87,11 +87,11 @@ class ScheduleController extends Controller
     public function store(Request $request)
     {
         $validateSchedule = Validator::make($request->all(),[
-          'start_date' => 'required|date|after:today',
-          'end_date' => 'required|date|after:start_date',
-          'id_user' => 'required|integer',
-          'id_template' => 'required|integer',
-          'status' => 'required|boolean',
+            'start_date' => 'required|date|after:today',
+            'end_date' => 'required|date|after:start_date',
+            'id_user' => 'required|integer',
+            'id_template' => 'required|integer',
+            'status' => 'required|boolean',
         ]);
 
         if($validateSchedule->fails()) {
@@ -105,12 +105,12 @@ class ScheduleController extends Controller
         return response()->json(['status' => '201','data' => $schedule]);
     }
 
-    public function listValidValues()
+    public function listSchedules()
     {
         return Schedule::all();
     }
 
-    public function listValidValue($id)
+    public function listSchedule($id)
     {
         $schedule = Schedule::find($id);
 
@@ -119,5 +119,56 @@ class ScheduleController extends Controller
         }
 
         return response(['message'=>'No existe la programacion'], 404);
+    }
+
+    public function update(Request $request,$id)
+    {
+        $schedule = Schedule::where('id',$id)->first();
+
+        if(!$schedule){
+            return response()->json(['status'=>'404','data'=>'No existe la programacion']);
+        }
+
+        $validateSchedule = Validator::make($request->all(),[
+            'start_date' => 'required|date|after:today',
+            'end_date' => 'required|date|after:start_date',
+            'id_user' => 'required|integer',
+            'id_template' => 'required|integer',
+            'status' => 'required|boolean',
+        ]);
+
+        if($validateValidValue->fails()) {
+            return response()
+                ->json(['status'=>'500','data'=>$validateValidValue->errors()]);
+        }
+
+        $request->start_date ? $schedule->start_date = $request->start_date: false;
+        $request->end_date ? $schedule->end_date = $request->end_date: false;
+        $request->id_user ? $schedule->id_user = $request->id_user : false;
+        $request->id_template ? $schedule->id_template = $request->id_template : false;
+        $request->status ? $schedule->status = $request->status: false;
+        $validValue->save();
+
+        return response()
+                    ->json(['status' => '200', 'data'=>$schedule,'message' => "Programacion actualizado"]);
+    }
+
+    public function changeStatus($id) {
+        $schedule = Schedule::where('id',$id)->first();
+
+        if(!$schedule){
+            return response()->json(['status'=>'404','data'=>'No existe el valor valido']);
+        }
+
+        $status = 0;
+        if($schedule->status == 0) {
+            $status = 1;
+        }
+
+        $schedule->status = $status;
+        $schedule->save();
+
+        return response()
+                    ->json(['status' => '200','data'=>'Estado de la programacion modificado','schedule'=>$status]);
     }
 }

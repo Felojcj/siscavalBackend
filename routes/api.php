@@ -114,6 +114,14 @@ Route::group(['middleware'=>['actived.system','verified','auth:api']],function()
         Route::post('/import/{id}', [ScheduleController::class, 'import']);
             // Creat Programacion
         Route::post('/schedule', [ScheduleController::class, 'store']);
+            // Listar Valores Validos
+        Route::get('/schedule', [ValidValueController::class, 'listSchedules']);
+            // Listar Valor Valido
+        Route::get('/schedule/{id}', [ValidValueController::class, 'listSchedule']);
+            // Editar Valor Valido
+        Route::put('/schedule/{id}', [ValidValueController::class, 'update']);
+            // Desactivar Valor Valido
+        Route::patch('/schedule/{id}', [ValidValueController::class, 'changeStatus']);
 
     });
 

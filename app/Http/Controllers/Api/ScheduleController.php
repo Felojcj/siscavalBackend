@@ -137,9 +137,9 @@ class ScheduleController extends Controller
             'status' => 'required|boolean',
         ]);
 
-        if($validateValidValue->fails()) {
+        if($validateSchedule->fails()) {
             return response()
-                ->json(['status'=>'500','data'=>$validateValidValue->errors()]);
+                ->json(['status'=>'500','data'=>$validateSchedule->errors()]);
         }
 
         $request->start_date ? $schedule->start_date = $request->start_date: false;
@@ -169,6 +169,6 @@ class ScheduleController extends Controller
         $schedule->save();
 
         return response()
-                    ->json(['status' => '200','data'=>'Estado de la programacion modificado','schedule'=>$status]);
+                    ->json(['status' => '200','data'=>'Estado de la programacion modificado','schedule_status'=>$status]);
     }
 }

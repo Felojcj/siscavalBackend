@@ -134,7 +134,6 @@ class ScheduleController extends Controller
             'end_date' => 'required|date|after:start_date',
             'id_user' => 'required|integer',
             'id_template' => 'required|integer',
-            'status' => 'required|boolean',
         ]);
 
         if($validateSchedule->fails()) {
@@ -146,7 +145,6 @@ class ScheduleController extends Controller
         $request->end_date ? $schedule->end_date = $request->end_date: false;
         $request->id_user ? $schedule->id_user = $request->id_user : false;
         $request->id_template ? $schedule->id_template = $request->id_template : false;
-        $request->status ? $schedule->status = $request->status: false;
         $validValue->save();
 
         return response()

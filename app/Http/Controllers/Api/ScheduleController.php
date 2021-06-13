@@ -145,7 +145,7 @@ class ScheduleController extends Controller
         $request->end_date ? $schedule->end_date = $request->end_date: false;
         $request->id_user ? $schedule->id_user = $request->id_user : false;
         $request->id_template ? $schedule->id_template = $request->id_template : false;
-        $validValue->save();
+        $schedule->save();
 
         return response()
                     ->json(['status' => '200', 'data'=>$schedule,'message' => "Programacion actualizado"]);

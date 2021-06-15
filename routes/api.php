@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\TemplateController;
 use App\Http\Controllers\Api\DetailController;
 use App\Http\Controllers\Api\ValidValueController;
 use App\Http\Controllers\Api\ScheduleController;
+use App\Http\Controllers\Api\ProfesorController;
 
 
 /*
@@ -122,6 +123,11 @@ Route::group(['middleware'=>['actived.system','verified','auth:api']],function()
         Route::put('/schedule/{id}', [ScheduleController::class, 'update']);
             // Desactivar Valor Valido
         Route::patch('/schedule/{id}', [ScheduleController::class, 'changeStatus']);
+
+        //SIE
+            // Importar Profesores
+        Route::post('/import_profesor', [ProfesorController::class, 'store']);
+        Route::get('/profesor', [ProfesorController::class, 'listProfesors']);
 
     });
 

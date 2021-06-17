@@ -15,6 +15,7 @@ class Schedule extends Model
       'implementation_date',
       'id_user',
       'id_template',
+      'path',
       'status',
     ];
 

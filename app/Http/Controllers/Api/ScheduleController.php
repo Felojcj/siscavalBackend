@@ -77,6 +77,10 @@ class ScheduleController extends Controller
         }
 
         $schedule->implementation_date = Carbon::now();
+        $user = User::find($schedule->id_user);
+        $originalname = $file->getClientOriginalName();
+        $path = $file->storeAs('public', $originalname);
+        $schedule->path = $path;
         $schedule->save();
 
         Mail::to($user->email)->send(new MessageValidated($user->email));
@@ -97,8 +101,6 @@ class ScheduleController extends Controller
         if($validateSchedule->fails()) {
             return response()->json(['status'=>'500','data'=>$validateSchedule->errors()]);
         }
-
-        $user = User::find($request->id_user);
 
         $schedule = Schedule::create($validateSchedule->getData());
 
@@ -168,5 +170,12 @@ class ScheduleController extends Controller
 
         return response()
                     ->json(['status' => '200','data'=>'Estado de la programacion modificado','schedule_status'=>$status]);
+    }
+
+    public function download($id)
+    {
+        $file = Schedule::findOrFail($id);
+
+        return response()->download(storage_path('app/'.$file->path));
     }
 }

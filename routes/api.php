@@ -111,9 +111,11 @@ Route::group(['middleware'=>['actived.system','verified','auth:api']],function()
         Route::patch('/valid-value/{id}', [ValidValueController::class, 'changeStatus']);
 
         //Programacion
-            // Import Excel
+            // Importar Excel
         Route::post('/import/{id}', [ScheduleController::class, 'import']);
-            // Creat Programacion
+            // Descargar Excel
+        Route::get('/download/{id}', [ScheduleController::class, 'download']);
+            // Crear Programacion
         Route::post('/schedule', [ScheduleController::class, 'store']);
             // Listar Valores Validos
         Route::get('/schedule', [ScheduleController::class, 'listSchedules']);

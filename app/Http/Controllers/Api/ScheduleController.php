@@ -31,7 +31,7 @@ class ScheduleController extends Controller
         ]);
 
         if($validateSchedule->fails()) {
-            return response()->json(['status'=>'500','data'=>$validateSchedule->errors()], 500);
+            return response()->json(['status'=>'500','data'=>$validateSchedule->errors()]);
         }
 
         $file = $request->file('import_file');
@@ -67,13 +67,13 @@ class ScheduleController extends Controller
                   )
               );
               if($validator->fails()) {
-                  return response()->json(['status'=>'400','data'=>$validator->errors()], 400);
+                  return response()->json(['status'=>'400','data'=>$validator->errors()]);
               }
           }
         }
 
         if ($headers <> $detailArr) {
-              return response()->json(['status' => '400', 'message' => 'Las columnas son diferentes a las definidas en el detalle de la plantilla'], 400);
+              return response()->json(['status' => '400', 'message' => 'Las columnas son diferentes a las definidas en el detalle de la plantilla']);
         }
 
         $schedule->implementation_date = Carbon::now();

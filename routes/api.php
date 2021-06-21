@@ -17,7 +17,7 @@ use App\Http\Controllers\Api\ValidValueController;
 use App\Http\Controllers\Api\ScheduleController;
 use App\Http\Controllers\Api\ProfesorController;
 use App\Http\Controllers\Api\GraduateController;
-
+use App\Http\Controllers\Api\NewStudentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -136,6 +136,10 @@ Route::group(['middleware'=>['actived.system','verified','auth:api']],function()
         Route::post('/import_graduate', [GraduateController::class, 'store']);
             // Listar Graduados
         Route::get('/graduate', [GraduateController::class, 'listGraduates']);
+            // Importar Inscritos,Admitidos Y Nuevos
+        Route::post('/import_new_student', [NewStudentController::class, 'store']);
+            // Listar Inscritos,Admitidos Y Nuevos
+        Route::get('/new_student', [NewStudentController::class, 'listNewStudents']);
 
     });
 

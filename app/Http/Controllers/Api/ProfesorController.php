@@ -13,9 +13,13 @@ class ProfesorController extends Controller
 {
     public function store(Request $request)
     {
-        $validateSchedule = Validator::make($request->all(),[
+        $validate = Validator::make($request->all(),[
             'import_file' => 'required|mimes:xlsx,xlx,xls'
         ]);
+
+        if($validate->fails()) {
+            return response()->json(['status'=>'500','data'=>$validate->errors()]);
+        }
 
         Excel::import(new ProfesorsImport, request()->file('import_file'));
 

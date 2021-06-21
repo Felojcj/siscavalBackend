@@ -4,12 +4,12 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Profesor;
-use App\Imports\ProfesorsImport;
+use App\Models\Graduate;
+use App\Imports\GraduatesImport;
 use Illuminate\Support\Facades\Validator;
 use Excel;
 
-class ProfesorController extends Controller
+class GraduateController extends Controller
 {
     public function store(Request $request)
     {
@@ -17,13 +17,13 @@ class ProfesorController extends Controller
             'import_file' => 'required|mimes:xlsx,xlx,xls'
         ]);
 
-        Excel::import(new ProfesorsImport, request()->file('import_file'));
+        Excel::import(new GraduatesImport, request()->file('import_file'));
 
         return response()->json(['status' => '201', 'data' => 'Ok']);
     }
 
-    public function listProfesors()
+    public function listGraduates()
     {
-        return Profesor::all();
+        return Graduate::all();
     }
 }

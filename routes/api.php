@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\DetailController;
 use App\Http\Controllers\Api\ValidValueController;
 use App\Http\Controllers\Api\ScheduleController;
 use App\Http\Controllers\Api\ProfesorController;
+use App\Http\Controllers\Api\GraduateController;
 
 
 /*
@@ -129,7 +130,12 @@ Route::group(['middleware'=>['actived.system','verified','auth:api']],function()
         //SIE
             // Importar Profesores
         Route::post('/import_profesor', [ProfesorController::class, 'store']);
+            // Listar Profesores
         Route::get('/profesor', [ProfesorController::class, 'listProfesors']);
+            // Importar Graduados
+        Route::post('/import_graduate', [GraduateController::class, 'store']);
+            // Listar Graduados
+        Route::get('/graduate', [GraduateController::class, 'listGraduates']);
 
     });
 

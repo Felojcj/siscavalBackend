@@ -152,9 +152,9 @@ Route::group(['middleware'=>['actived.system','verified','auth:api']],function()
             // Listar Matriculados
         Route::get('/enrolled', [EnrolledController::class, 'listEnrolleds']);
             // Importar Tasa de Desercion
-        Route::post('/import_defection_rate', [EnrolledController::class, 'store']);
+        Route::post('/import_defection_rate', [DefectionRateController::class, 'store']);
             // Listar Tasa de Desercion
-        Route::get('/defection_rate', [EnrolledController::class, 'listDefectionRates']);
+        Route::get('/defection_rate', [DefectionRateController::class, 'listDefectionRates']);
 
     });
 

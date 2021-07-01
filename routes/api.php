@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\ScheduleController;
 use App\Http\Controllers\Api\ProfesorController;
 use App\Http\Controllers\Api\GraduateController;
 use App\Http\Controllers\Api\NewStudentController;
+use App\Http\Controllers\Api\EnrolledByGenderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -140,6 +141,10 @@ Route::group(['middleware'=>['actived.system','verified','auth:api']],function()
         Route::post('/import_new_student', [NewStudentController::class, 'store']);
             // Listar Inscritos,Admitidos Y Nuevos
         Route::get('/new_student', [NewStudentController::class, 'listNewStudents']);
+            // Importar Matriculados por Genero
+        Route::post('/import_enrolled_by_gender', [EnrolledByGenderController::class, 'store']);
+            // Listar Matriculados por Genero
+        Route::get('/enrolled_by_gender', [EnrolledByGenderController::class, 'listEnrolledByGender']);
 
     });
 

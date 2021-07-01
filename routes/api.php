@@ -19,6 +19,8 @@ use App\Http\Controllers\Api\ProfesorController;
 use App\Http\Controllers\Api\GraduateController;
 use App\Http\Controllers\Api\NewStudentController;
 use App\Http\Controllers\Api\EnrolledByGenderController;
+use App\Http\Controllers\Api\EnrolledController;
+use App\Http\Controllers\Api\DefectionRateController;
 
 /*
 |--------------------------------------------------------------------------
@@ -145,6 +147,14 @@ Route::group(['middleware'=>['actived.system','verified','auth:api']],function()
         Route::post('/import_enrolled_by_gender', [EnrolledByGenderController::class, 'store']);
             // Listar Matriculados por Genero
         Route::get('/enrolled_by_gender', [EnrolledByGenderController::class, 'listEnrolledByGender']);
+            // Importar Matriculados
+        Route::post('/import_enrolled', [EnrolledController::class, 'store']);
+            // Listar Matriculados
+        Route::get('/enrolled', [EnrolledController::class, 'listEnrolleds']);
+            // Importar Tasa de Desercion
+        Route::post('/import_defection_rate', [EnrolledController::class, 'store']);
+            // Listar Tasa de Desercion
+        Route::get('/defection_rate', [EnrolledController::class, 'listDefectionRates']);
 
     });
 

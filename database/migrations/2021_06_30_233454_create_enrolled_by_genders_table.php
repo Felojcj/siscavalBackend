@@ -14,30 +14,30 @@ class CreateEnrolledByGendersTable extends Migration
     public function up()
     {
         Schema::create('enrolled_by_genders', function (Blueprint $table) {
-          $table->id();
-          $table->string('faculty');
-          $table->string('program');
-          $table->string('semester');
-          $table->string('male_newcomers_poblado')->nullable();
-          $table->string('female_newcomers_poblado')->nullable();
-          $table->string('male_newcomers_rionegro')->nullable();
-          $table->string('female_newcomers_rionegro')->nullable();
-          $table->string('male_newcomers_apartado')->nullable();
-          $table->string('female_newcomers_apartado')->nullable();
-          $table->string('male_former_students_poblado')->nullable();
-          $table->string('female_former_students_poblado')->nullable();
-          $table->string('male_former_students_rionegro')->nullable();
-          $table->string('female_former_students_rionegro')->nullable();
-          $table->string('male_former_students_apartado')->nullable();
-          $table->string('female_former_students_apartado')->nullable();
-          $table->string('male_total_students_poblado')->nullable();
-          $table->string('female_total_students_poblado')->nullable();
-          $table->string('male_total_students_rionegro')->nullable();
-          $table->string('female_total_students_rionegro')->nullable();
-          $table->string('male_total_students_apartado')->nullable();
-          $table->string('female_total_students_apartado')->nullable();
-          $table->string('total')->nullable();
-          $table->tinyInteger('status');
+            $table->id();
+            $table->string('faculty');
+            $table->string('program');
+            $table->string('semester');
+            $table->string('male_newcomers_poblado')->nullable();
+            $table->string('female_newcomers_poblado')->nullable();
+            $table->string('male_newcomers_rionegro')->nullable();
+            $table->string('female_newcomers_rionegro')->nullable();
+            $table->string('male_newcomers_apartado')->nullable();
+            $table->string('female_newcomers_apartado')->nullable();
+            $table->string('male_former_students_poblado')->nullable();
+            $table->string('female_former_students_poblado')->nullable();
+            $table->string('male_former_students_rionegro')->nullable();
+            $table->string('female_former_students_rionegro')->nullable();
+            $table->string('male_former_students_apartado')->nullable();
+            $table->string('female_former_students_apartado')->nullable();
+            $table->string('male_total_students_poblado')->nullable();
+            $table->string('female_total_students_poblado')->nullable();
+            $table->string('male_total_students_rionegro')->nullable();
+            $table->string('female_total_students_rionegro')->nullable();
+            $table->string('male_total_students_apartado')->nullable();
+            $table->string('female_total_students_apartado')->nullable();
+            $table->string('total')->nullable();
+            $table->tinyInteger('status');
         });
     }
 

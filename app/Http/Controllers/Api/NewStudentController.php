@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\NewStudent;
 use App\Imports\NewStudentsImport;
+use App\Exports\NewStudentsExport;
 use Illuminate\Support\Facades\Validator;
 use Excel;
 
@@ -29,5 +30,10 @@ class NewStudentController extends Controller
     public function listNewStudents()
     {
         return NewStudent::all();
+    }
+
+    public function export() 
+    {
+        return Excel::download(new NewStudentsExport, 'inscritos, admitidos y nuevos.xlsx');
     }
 }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Graduate;
 use App\Imports\GraduatesImport;
+use App\Exports\GraduatesExport;
 use Illuminate\Support\Facades\Validator;
 use Excel;
 
@@ -29,5 +30,10 @@ class GraduateController extends Controller
     public function listGraduates()
     {
         return Graduate::all();
+    }
+
+    public function export() 
+    {
+        return Excel::download(new GraduatesExport, 'graduados.xlsx');
     }
 }

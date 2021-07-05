@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Enrolled;
 use App\Imports\EnrolledsImport;
+use App\Exports\EnrolledsExport;
 use Illuminate\Support\Facades\Validator;
 use Excel;
 
@@ -29,5 +30,10 @@ class EnrolledController extends Controller
     public function listEnrolleds()
     {
         return Enrolled::all();
+    }
+
+    public function export() 
+    {
+        return Excel::download(new EnrolledsExport, 'matriculados.xlsx');
     }
 }

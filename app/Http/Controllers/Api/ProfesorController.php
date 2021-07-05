@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Profesor;
 use App\Imports\ProfesorsImport;
+use App\Exports\ProfesorsExport;
 use Illuminate\Support\Facades\Validator;
 use Excel;
 
@@ -29,5 +30,10 @@ class ProfesorController extends Controller
     public function listProfesors()
     {
         return Profesor::all();
+    }
+
+    public function export() 
+    {
+        return Excel::download(new ProfesorsExport, 'profesores.xlsx');
     }
 }

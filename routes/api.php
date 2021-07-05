@@ -5,10 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\ForgotPasswordController;
 use App\Http\Controllers\Api\ResetPasswordController;
-use App\Http\Controllers\Api\ImplementoController;
-use App\Http\Controllers\Api\ReservaController;
-use App\Http\Controllers\Api\EscenarioController;
-use App\Http\Controllers\Api\PrestamoController;
 use App\Http\Controllers\Api\VerificationController;
 use App\Http\Controllers\Api\DependenceController;
 use App\Http\Controllers\Api\TemplateController;
@@ -131,46 +127,58 @@ Route::group(['middleware'=>['actived.system','verified','auth:api']],function()
         Route::patch('/schedule/{id}', [ScheduleController::class, 'changeStatus']);
 
         //SIE
-            // Importar Profesores
-        Route::post('/import_profesor', [ProfesorController::class, 'store']);
-            // Listar Profesores
-        Route::get('/profesor', [ProfesorController::class, 'listProfesors']);
-            // Importar Graduados
-        Route::post('/import_graduate', [GraduateController::class, 'store']);
-            // Listar Graduados
-        Route::get('/graduate', [GraduateController::class, 'listGraduates']);
-            // Importar Inscritos,Admitidos Y Nuevos
-        Route::post('/import_new_student', [NewStudentController::class, 'store']);
-            // Listar Inscritos,Admitidos Y Nuevos
-        Route::get('/new_student', [NewStudentController::class, 'listNewStudents']);
-            // Importar Matriculados por Genero
-        Route::post('/import_enrolled_by_gender', [EnrolledByGenderController::class, 'store']);
-            // Listar Matriculados por Genero
-        Route::get('/enrolled_by_gender', [EnrolledByGenderController::class, 'listEnrolledByGender']);
-            // Importar Matriculados
-        Route::post('/import_enrolled', [EnrolledController::class, 'store']);
-            // Listar Matriculados
-        Route::get('/enrolled', [EnrolledController::class, 'listEnrolleds']);
-            // Importar Tasa de Desercion
-        Route::post('/import_defection_rate', [DefectionRateController::class, 'store']);
-            // Listar Tasa de Desercion
-        Route::get('/defection_rate', [DefectionRateController::class, 'listDefectionRates']);
+            // Profesores
+                // Importar Profesores
+            Route::post('/import_profesor', [ProfesorController::class, 'store']);
+                // Listar Profesores
+            Route::get('/profesor', [ProfesorController::class, 'listProfesors']);
+                // Exportar Profesores
+            Route::get('/export_profesor', [ProfesorController::class, 'export']);
+
+            // Graduados
+                // Importar Graduados
+            Route::post('/import_graduate', [GraduateController::class, 'store']);
+                // Listar Graduados
+            Route::get('/graduate', [GraduateController::class, 'listGraduates']);
+                // Exportar Graduados
+            Route::get('/export_graduate', [GraduateController::class, 'export']);
+
+            // Inscritos,Admitidos Y Nuevos
+                // Importar Inscritos,Admitidos Y Nuevos
+            Route::post('/import_new_student', [NewStudentController::class, 'store']);
+                // Listar Inscritos,Admitidos Y Nuevos
+            Route::get('/new_student', [NewStudentController::class, 'listNewStudents']);
+                // Exportar Inscritos,Admitidos Y Nuevos
+            Route::get('/export_new_student', [NewStudentController::class, 'export']);
+
+            // Matriculados por Genero
+                // Importar Matriculados por Genero
+            Route::post('/import_enrolled_by_gender', [EnrolledByGenderController::class, 'store']);
+                // Listar Matriculados por Genero
+            Route::get('/enrolled_by_gender', [EnrolledByGenderController::class, 'listEnrolledByGender']);
+                // Exportar Matriculados por Genero
+            Route::get('/export_enrolled_by_gender', [EnrolledByGenderController::class, 'export']);
+
+            // Matriculados
+                // Importar Matriculados
+            Route::post('/import_enrolled', [EnrolledController::class, 'store']);
+                // Listar Matriculados
+            Route::get('/enrolled', [EnrolledController::class, 'listEnrolleds']);
+                // Exportar Matriculados por Genero
+            Route::get('/export_enrolled', [EnrolledController::class, 'export']);
+
+            // Tasa de Desercion
+                // Importar Tasa de Desercion
+            Route::post('/import_defection_rate', [DefectionRateController::class, 'store']);
+                // Listar Tasa de Desercion
+            Route::get('/defection_rate', [DefectionRateController::class, 'listDefectionRates']);
+                // Exportar Tasa de Desercion
+            Route::get('/export_defection_rate', [DefectionRateController::class, 'export']);
 
     });
 
     Route::group(['middleware'=>['role.implements']],function() {
-        Route::get('/prestamos/user',[PrestamoController::class,'listLoansUser']);
-        Route::get('/prestamos/user/{id}',[PrestamoController::class,'getLoanUser']);
-        Route::post('/prestamos',[PrestamoController::class,'store']);
-        Route::get('/implementos',[ImplementoController::class,'index']);
-        Route::get('/prestamos/{id}',[PrestamoController::class,'show']);
     });
-    //Obtener Reservas Usuario
-    Route::get('/reservas/user',[ReservaController::class,'listReservationsUser']);
-    Route::get('/reservas/{id}',[ReservaController::class,'show']);
-    //Obtener Prestamos Usuario
-    //Cerrar sesión
+
     Route::get('/logout',[AuthController::class,'logout']);
-    Route::get('/escenarios',[EscenarioController::class,'index']);
-    Route::post('/reservas',[ReservaController::class,'store']);
 });

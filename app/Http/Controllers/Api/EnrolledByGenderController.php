@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\EnrolledByGender;
 use App\Imports\EnrolledByGendersImport;
+use App\Exports\EnrolledByGendersExport;
 use Illuminate\Support\Facades\Validator;
 use Excel;
 
@@ -29,5 +30,10 @@ class EnrolledByGenderController extends Controller
     public function listEnrolledByGender()
     {
         return EnrolledByGender::all();
+    }
+
+    public function export() 
+    {
+        return Excel::download(new EnrolledByGendersExport, 'matriculados por genero.xlsx');
     }
 }

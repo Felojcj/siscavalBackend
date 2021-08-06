@@ -29,7 +29,7 @@ class GraduateController extends Controller
 
     public function listGraduates()
     {
-        return Graduate::all();
+        return Graduate::filter()->get();
     }
 
     public function export() 

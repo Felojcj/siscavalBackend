@@ -29,7 +29,7 @@ class EnrolledController extends Controller
 
     public function listEnrolleds()
     {
-        return Enrolled::all();
+        return Enrolled::filter()->get();
     }
 
     public function export() 

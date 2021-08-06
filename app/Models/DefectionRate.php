@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Mehradsadeghi\FilterQueryString\FilterQueryString;
 
 class DefectionRate extends Model
 {
     use HasFactory;
+    use FilterQueryString;
 
     public $timestamps = false;
 
@@ -29,5 +31,11 @@ class DefectionRate extends Model
         'voluntary_retirement_total',
         'defection_rate',
         'status'
+    ];
+    
+    protected $filters = [
+        'semester',
+        'campus',
+        'faculty',
     ];
 }

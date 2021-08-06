@@ -29,7 +29,7 @@ class DefectionRateController extends Controller
 
     public function listDefectionRates()
     {
-        return DefectionRate::all();
+        return DefectionRate::filter()->get();
     }
 
     public function export() 

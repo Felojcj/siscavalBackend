@@ -29,7 +29,7 @@ class NewStudentController extends Controller
 
     public function listNewStudents()
     {
-        return NewStudent::all();
+        return NewStudent::filter()->get();
     }
 
     public function export() 

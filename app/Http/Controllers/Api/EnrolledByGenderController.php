@@ -29,7 +29,7 @@ class EnrolledByGenderController extends Controller
 
     public function listEnrolledByGender()
     {
-        return EnrolledByGender::all();
+        return EnrolledByGender::filter()->get();
     }
 
     public function export() 

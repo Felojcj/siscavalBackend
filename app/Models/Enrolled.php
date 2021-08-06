@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Mehradsadeghi\FilterQueryString\FilterQueryString;
 
 class Enrolled extends Model
 {
     use HasFactory;
+    use FilterQueryString;
 
     public $timestamps = false;
 
@@ -26,5 +28,11 @@ class Enrolled extends Model
         'total_apartado',
         'grand_total',
         'status'
+    ];
+
+    protected $filters = [
+        'semester',
+        'campus',
+        'faculty',
     ];
 }

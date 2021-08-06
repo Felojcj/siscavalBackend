@@ -29,7 +29,7 @@ class ProfesorController extends Controller
 
     public function listProfesors()
     {
-        return Profesor::all();
+        return Profesor::filter()->get();
     }
 
     public function export() 

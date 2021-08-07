@@ -109,7 +109,27 @@ class ScheduleController extends Controller
 
     public function listSchedules()
     {
-        return Schedule::all();
+        $result = [];
+
+        foreach (Schedule::join('Templates','schedules.id_template','=','templates.id')
+          ->select('schedules.id', 'schedules.end_date', 'schedules.id_user', 'schedules.implementation_date', 'schedules.path', 'schedules.start_date', 'schedules.status', 'templates.id as id_template', 'templates.name')
+          ->get() as $schedule) {
+            $result[] = [
+              'id' => $schedule->id,
+              'end_date' => $schedule->end_date,
+              'id_user' => $schedule->id_user,
+              'implementation_date' => $schedule->implementation_date,
+              'path' => $schedule->path,
+              'start_date' => $schedule->start_date,
+              'status' => $schedule->status,
+              'template' => [
+                'id' => $schedule->id_template,
+                'name' => $schedule->name,
+              ]
+            ];
+          }
+
+        return response()->json($result);
     }
 
     public function listSchedule($id)

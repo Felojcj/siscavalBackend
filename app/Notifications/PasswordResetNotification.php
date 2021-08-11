@@ -43,7 +43,7 @@ class PasswordResetNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        $urlToResetForm = "http://localhost:4200/password/reset/". $this->token;
+        $urlToResetForm = "http://localhost:3000/change-password". $this->token;
         return (new MailMessage)
             ->subject(Lang::get('Bienvenido a SALIRES (Sistema de Reservas del Poli)'))
             ->action(Lang::get('Reset Password'), $urlToResetForm)

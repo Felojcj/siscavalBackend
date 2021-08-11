@@ -22,8 +22,8 @@ class Graduate extends Model
     ];
 
     protected $filters = [
-        'semester',
-        'campus',
         'faculty',
+        'program',
+        'semester',
     ];
 }

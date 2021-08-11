@@ -31,7 +31,7 @@ class NewStudent extends Model
 
     protected $filters = [
         'semester',
-        'campus',
+        'program',
         'faculty',
     ];
 }

@@ -11,11 +11,11 @@ class ForgotPasswordController extends Controller
     use SendsPasswordResetEmails;
     
     protected function sendResetLinkResponse(Request $request, $response) {
-        return response(['message'=>trans($response)]);
+        return response(['status' => '200', 'message'=>trans($response)]);
     }
 
     protected function sendResetLinkFailedResponse(Request $request, $response) {
-        return response(['error'=>trans($response)],422);
+        return response(['status' => '422', 'error'=>trans($response)]);
     }
 
     

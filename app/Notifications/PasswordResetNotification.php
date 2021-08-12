@@ -43,9 +43,9 @@ class PasswordResetNotification extends Notification
      */
     public function toMail($notifiable)
     {
-        $urlToResetForm = "http://localhost:3000/change-password". $this->token;
+        $urlToResetForm = "http://localhost:3000/change-password/". $this->token;
         return (new MailMessage)
-            ->subject(Lang::get('Bienvenido a SALIRES (Sistema de Reservas del Poli)'))
+            ->subject(Lang::get('Bienvenido a SISCAVAL'))
             ->action(Lang::get('Reset Password'), $urlToResetForm)
             ->line(Lang::get('Este link expirará en :count minutos.', ['count' => config('auth.passwords.users.expire')]))
             ->line(Lang::get('Si no solicitó un restablecimiento de contraseña, no se requiere ninguna otra acción.. Token: ==>'. $this->token));

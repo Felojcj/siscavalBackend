@@ -11,10 +11,10 @@ class ResetPasswordController extends Controller
     use ResetsPasswords;
 
     protected function sendResetResponse(Request $request, $response) {
-        return response(['message'=>trans($response)]);
+        return response(['status'=>'200', 'message'=>trans($response)]);
     }
 
     protected function sendResetFailedResponse(Request $request, $response) {
-        return response(['error'=>trans($response)],422);
+        return response(['status' => '422', 'error'=>trans($response)]);
     }
 }

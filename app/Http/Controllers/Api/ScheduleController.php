@@ -112,7 +112,8 @@ class ScheduleController extends Controller
         $result = [];
 
         foreach (Schedule::join('Templates','schedules.id_template','=','templates.id')
-          ->select('schedules.id', 'schedules.end_date', 'schedules.id_user', 'schedules.implementation_date', 'schedules.path', 'schedules.start_date', 'schedules.status', 'templates.id as id_template', 'templates.name')
+          ->select('schedules.id', 'schedules.updated_at', 'schedules.end_date', 'schedules.id_user', 'schedules.implementation_date', 'schedules.path', 'schedules.start_date', 'schedules.status', 'templates.id as id_template', 'templates.name')
+          ->orderBy('updated_at', 'desc')
           ->get() as $schedule) {
             $result[] = [
               'id' => $schedule->id,

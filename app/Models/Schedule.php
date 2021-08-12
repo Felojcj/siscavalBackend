@@ -16,6 +16,7 @@ class Schedule extends Model
       'id_user',
       'id_template',
       'path',
+      'name',
       'status',
     ];
 

@@ -95,6 +95,7 @@ class ScheduleController extends Controller
             'end_date' => 'required|date|after:start_date',
             'id_user' => 'required|integer',
             'id_template' => 'required|integer',
+            'name' => 'required|string',
             'status' => 'required|boolean',
         ]);
 
@@ -112,7 +113,7 @@ class ScheduleController extends Controller
         $result = [];
 
         foreach (Schedule::join('Templates','schedules.id_template','=','templates.id')
-          ->select('schedules.id', 'schedules.updated_at', 'schedules.end_date', 'schedules.id_user', 'schedules.implementation_date', 'schedules.path', 'schedules.start_date', 'schedules.status', 'templates.id as id_template', 'templates.name')
+          ->select('schedules.id', 'schedules.updated_at', 'schedules.name', 'schedules.end_date', 'schedules.id_user', 'schedules.implementation_date', 'schedules.path', 'schedules.start_date', 'schedules.status', 'templates.id as id_template', 'templates.name')
           ->orderBy('updated_at', 'desc')
           ->get() as $schedule) {
             $result[] = [
@@ -122,6 +123,7 @@ class ScheduleController extends Controller
               'implementation_date' => $schedule->implementation_date,
               'path' => $schedule->path,
               'start_date' => $schedule->start_date,
+              'name' => $schedule->name,
               'status' => $schedule->status,
               'template' => [
                 'id' => $schedule->id_template,
@@ -156,6 +158,7 @@ class ScheduleController extends Controller
             'start_date' => 'required|date|after:today',
             'end_date' => 'required|date|after:start_date',
             'id_user' => 'required|integer',
+            'name' => 'required|string',
             'id_template' => 'required|integer',
         ]);
 
@@ -167,6 +170,7 @@ class ScheduleController extends Controller
         $request->start_date ? $schedule->start_date = $request->start_date: false;
         $request->end_date ? $schedule->end_date = $request->end_date: false;
         $request->id_user ? $schedule->id_user = $request->id_user : false;
+        $request->name ? $schedule->name = $request->name : false;
         $request->id_template ? $schedule->id_template = $request->id_template : false;
         $schedule->save();
 

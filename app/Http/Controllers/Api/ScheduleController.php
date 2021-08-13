@@ -78,7 +78,6 @@ class ScheduleController extends Controller
 
         $schedule->implementation_date = Carbon::now();
         $user = User::find($schedule->id_user);
-        $originalname = $file->getClientOriginalName();
         $fname = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
         $extension = pathinfo($file->getClientOriginalName(), PATHINFO_EXTENSION);
         $path = $file->storeAs('public', $fname."-".time().'.'.$extension);

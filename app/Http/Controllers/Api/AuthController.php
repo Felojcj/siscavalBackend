@@ -44,7 +44,7 @@ class AuthController extends Controller
             'status' => $request->status
         ]);
         event(new Registered($user));
-        Mail::to($user->email)->send(new MessageStatus($password));
+        // Mail::to($user->email)->send(new MessageStatus($password));
         $accessToken = $user->createToken('authToken')->accessToken;
 
         return response()

@@ -13,7 +13,7 @@ class DetailController extends Controller
     public function store(Request $request)
     {
         $validateDetail = Validator::make($request->all(),[
-            'column_name' => 'required|string|unique:details',
+            'column_name' => 'required|string',
             'data_type' => 'required|string',
             // 'min_length' => 'required|integer|min:0|not_in:0',
             // 'max_length' => "required|integer|min:{$request->min_length}|not_in:{$request->min_length}",
